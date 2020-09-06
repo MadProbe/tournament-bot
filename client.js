@@ -13,6 +13,8 @@ const _dirname = dirname(fileURLToPath(importMeta.url));
 export const db = new Database(join(_dirname, 'database.db'));
 db.pragma('journal_mode = WAL');
 db.pragma('secure_delete=FAST');
+db.exec("CREATE TABLE IF NOT EXISTS board(id TEXT PRIMARY KEY, name TEXT, exp TEXT, level INTEGER)");
+db.exec("CREATE TABLE IF NOT EXISTS link_logs(guildid TEXT PRIMARY KEY, chid TEXT)");
 
 export class TournamentBotClient extends Client {
     /**
@@ -34,7 +36,6 @@ export class TournamentBotClient extends Client {
                 }
             }
         }
-        db.exec("CREATE TABLE IF NOT EXISTS board(id TEXT PRIMARY KEY, name TEXT, exp TEXT, level INTEGER)");
         return await super.login(readFileSync(join(_dirname, 'token'), "utf-8"));
     }
 }
